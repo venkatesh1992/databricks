@@ -56,6 +56,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC select name,price  from products where price < 200 order by price desc;
+
+# COMMAND ----------
+
 # MAGIC %md **Method 2: Working with the DataFrame API**
 # MAGIC
 # MAGIC We can also express Spark SQL queries using the DataFrame API.
@@ -69,6 +74,15 @@ display(spark
         .where("price < 200")
         .orderBy("price")
        )
+
+# COMMAND ----------
+
+import pyspark.sql.functions as F
+
+# COMMAND ----------
+
+spark.table("products").select("name","price").where("price > 200").orderBy(F.desc("price")) \
+  .show()
 
 # COMMAND ----------
 
@@ -116,6 +130,18 @@ spark
 # COMMAND ----------
 
 products_df = spark.table("products")
+
+# COMMAND ----------
+
+prod_df = spark.table("products")
+
+# COMMAND ----------
+
+prod_df.columns
+
+# COMMAND ----------
+
+prod_df.schema
 
 # COMMAND ----------
 
@@ -249,6 +275,21 @@ budget_df.printSchema()
 # COMMAND ----------
 
 budget_df.count()
+
+# COMMAND ----------
+
+budget_df.describe()
+
+# COMMAND ----------
+
+budget_df.summary()
+
+# COMMAND ----------
+
+#budget_df.first()
+#budget_df.head()
+#budget_df.collect()
+budget_df.take(10)
 
 # COMMAND ----------
 
